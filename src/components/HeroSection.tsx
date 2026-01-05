@@ -40,114 +40,189 @@ export const HeroSection = () => {
 
       {/* Interactive floating NFTs */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Left side NFTs */}
+        {/* Left side NFTs - with unique effects */}
         {[
-          { x: 3, y: 15, size: "w-14 h-14", delay: 0 },
-          { x: 8, y: 35, size: "w-20 h-20", delay: 0.3 },
-          { x: 5, y: 55, size: "w-16 h-16", delay: 0.6 },
-          { x: 10, y: 75, size: "w-12 h-12", delay: 0.9 },
-          { x: 15, y: 25, size: "w-10 h-10", delay: 1.2 },
-          { x: 12, y: 85, size: "w-18 h-18", delay: 1.5 },
-        ].map((pos, i) => (
-          <motion.img
-            key={`left-${i}`}
-            src={nftImages[i % nftImages.length]}
-            alt={`NFT ${i + 1}`}
-            className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block cursor-pointer nft-hover`}
-            style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-            animate={{
+          { x: 3, y: 15, size: "w-14 h-14", effect: "orbit" },
+          { x: 8, y: 35, size: "w-20 h-20", effect: "swing" },
+          { x: 5, y: 55, size: "w-16 h-16", effect: "bounce" },
+          { x: 10, y: 75, size: "w-12 h-12", effect: "zigzag" },
+          { x: 15, y: 25, size: "w-10 h-10", effect: "pulse" },
+          { x: 12, y: 85, size: "w-18 h-18", effect: "spin" },
+        ].map((pos, i) => {
+          const effects: Record<string, any> = {
+            orbit: {
+              x: [0, 20, 0, -20, 0],
+              y: [-20, 0, 20, 0, -20],
+              rotate: [0, 90, 180, 270, 360],
+            },
+            swing: {
+              rotate: [-30, 30, -30],
+              y: [-10, 10, -10],
+            },
+            bounce: {
+              y: [0, -40, 0],
+              scale: [1, 0.9, 1],
+            },
+            zigzag: {
+              x: [-20, 20, -20],
+              y: [-10, 10, -10],
+              rotate: [-10, 10, -10],
+            },
+            pulse: {
+              scale: [1, 1.3, 1],
+              opacity: [0.7, 1, 0.7],
+            },
+            spin: {
+              rotate: [0, 360],
               y: [-15, 15, -15],
+            },
+          };
+          
+          return (
+            <motion.img
+              key={`left-${i}`}
+              src={nftImages[i % nftImages.length]}
+              alt={`NFT ${i + 1}`}
+              className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block cursor-pointer nft-hover`}
+              style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+              animate={effects[pos.effect]}
+              transition={{
+                duration: pos.effect === 'spin' ? 8 : pos.effect === 'bounce' ? 1.5 : 3 + i * 0.3,
+                delay: i * 0.2,
+                repeat: Infinity,
+                ease: pos.effect === 'bounce' ? 'easeOut' : 'easeInOut',
+              }}
+              whileHover={{
+                scale: 1.5,
+                rotate: [0, -20, 20, -10, 10, 0],
+                boxShadow: "0 0 30px rgba(255,200,0,0.6)",
+                zIndex: 50,
+              }}
+              whileTap={{ scale: 0.8, rotate: 180 }}
+              onHoverStart={() => playSound("pop")}
+              onClick={() => playSound("squawk")}
+            />
+          );
+        })}
+
+        {/* Right side NFTs - with unique effects */}
+        {[
+          { x: 85, y: 12, size: "w-16 h-16", effect: "float3d" },
+          { x: 90, y: 32, size: "w-14 h-14", effect: "wave" },
+          { x: 82, y: 50, size: "w-20 h-20", effect: "heartbeat" },
+          { x: 88, y: 68, size: "w-12 h-12", effect: "spiral" },
+          { x: 92, y: 82, size: "w-16 h-16", effect: "jelly" },
+          { x: 78, y: 20, size: "w-10 h-10", effect: "shake" },
+        ].map((pos, i) => {
+          const effects: Record<string, any> = {
+            float3d: {
+              rotateX: [0, 20, 0, -20, 0],
+              rotateY: [0, 20, 0, -20, 0],
+              y: [-10, 10, -10],
+            },
+            wave: {
+              y: [-15, 15, -15],
+              x: [-10, 10, -10],
+              rotate: [-8, 8, -8],
+            },
+            heartbeat: {
+              scale: [1, 1.15, 1, 1.1, 1],
+            },
+            spiral: {
+              x: [0, 15, 0, -15, 0],
+              y: [0, -15, 0, 15, 0],
+              rotate: [0, 180, 360],
+            },
+            jelly: {
+              scaleX: [1, 1.2, 0.9, 1.1, 1],
+              scaleY: [1, 0.9, 1.2, 0.95, 1],
+            },
+            shake: {
+              x: [-5, 5, -5, 5, -5],
+              rotate: [-5, 5, -5, 5, -5],
+            },
+          };
+          
+          return (
+            <motion.img
+              key={`right-${i}`}
+              src={nftImages[(i + 5) % nftImages.length]}
+              alt={`NFT ${i + 6}`}
+              className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block cursor-pointer nft-hover`}
+              style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+              animate={effects[pos.effect]}
+              transition={{
+                duration: pos.effect === 'shake' ? 0.5 : pos.effect === 'heartbeat' ? 1.2 : 3 + i * 0.2,
+                delay: i * 0.15,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              whileHover={{
+                scale: 1.5,
+                rotate: [0, 15, -15, 10, -10, 0],
+                boxShadow: "0 0 30px rgba(255,100,150,0.6)",
+                zIndex: 50,
+              }}
+              whileTap={{ scale: 0.8, rotate: -180 }}
+              onHoverStart={() => playSound("pop")}
+              onClick={() => playSound("squawk")}
+            />
+          );
+        })}
+
+        {/* Scattered smaller NFTs with fun effects */}
+        {[
+          { x: 20, y: 10, size: "w-10 h-10", effect: "rocket" },
+          { x: 75, y: 8, size: "w-12 h-12", effect: "blink" },
+          { x: 25, y: 88, size: "w-14 h-14", effect: "wobble" },
+          { x: 70, y: 90, size: "w-10 h-10", effect: "flip" },
+        ].map((pos, i) => {
+          const effects: Record<string, any> = {
+            rocket: {
+              y: [0, -30, 0],
+              x: [0, 5, 0],
               rotate: [-5, 5, -5],
-              scale: [1, 1.05, 1],
-            }}
-            transition={{
-              duration: 4 + i * 0.5,
-              delay: pos.delay,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            whileHover={{
-              scale: 1.3,
-              rotate: [0, -15, 15, 0],
-              zIndex: 50,
-            }}
-            whileTap={{ scale: 0.9 }}
-            onHoverStart={() => playSound("pop")}
-            onClick={() => playSound("squawk")}
-          />
-        ))}
-
-        {/* Right side NFTs */}
-        {[
-          { x: 85, y: 12, size: "w-16 h-16", delay: 0.2 },
-          { x: 90, y: 32, size: "w-14 h-14", delay: 0.5 },
-          { x: 82, y: 50, size: "w-20 h-20", delay: 0.8 },
-          { x: 88, y: 68, size: "w-12 h-12", delay: 1.1 },
-          { x: 92, y: 82, size: "w-16 h-16", delay: 1.4 },
-          { x: 78, y: 20, size: "w-10 h-10", delay: 1.7 },
-        ].map((pos, i) => (
-          <motion.img
-            key={`right-${i}`}
-            src={nftImages[(i + 5) % nftImages.length]}
-            alt={`NFT ${i + 6}`}
-            className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block cursor-pointer nft-hover`}
-            style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-            animate={{
-              y: [-12, 12, -12],
-              rotate: [5, -5, 5],
-              scale: [1, 1.08, 1],
-            }}
-            transition={{
-              duration: 4.5 + i * 0.5,
-              delay: pos.delay,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            whileHover={{
-              scale: 1.3,
-              rotate: [0, 15, -15, 0],
-              zIndex: 50,
-            }}
-            whileTap={{ scale: 0.9 }}
-            onHoverStart={() => playSound("pop")}
-            onClick={() => playSound("squawk")}
-          />
-        ))}
-
-        {/* Scattered smaller NFTs for mobile and extra flair */}
-        {[
-          { x: 20, y: 10, size: "w-10 h-10" },
-          { x: 75, y: 8, size: "w-12 h-12" },
-          { x: 25, y: 88, size: "w-14 h-14" },
-          { x: 70, y: 90, size: "w-10 h-10" },
-        ].map((pos, i) => (
-          <motion.img
-            key={`scatter-${i}`}
-            src={nftImages[(i + 3) % nftImages.length]}
-            alt={`NFT scatter ${i + 1}`}
-            className={`absolute ${pos.size} object-cover rounded-xl shadow-lg border-3 border-cockatoo-yellow/60 cursor-pointer nft-hover`}
-            style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-            animate={{
-              y: [-8, 8, -8],
-              x: [-5, 5, -5],
-              rotate: [-3, 3, -3],
-            }}
-            transition={{
-              duration: 5 + i,
-              delay: i * 0.4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            whileHover={{
-              scale: 1.4,
-              rotate: [0, -10, 10, 0],
-              zIndex: 50,
-            }}
-            whileTap={{ scale: 0.9 }}
-            onHoverStart={() => playSound("pop")}
-            onClick={() => playSound("squawk")}
-          />
-        ))}
+            },
+            blink: {
+              opacity: [1, 0.3, 1, 0.5, 1],
+              scale: [1, 1.1, 1, 1.05, 1],
+            },
+            wobble: {
+              rotate: [-15, 15, -10, 10, -5, 5, 0],
+              y: [-5, 5, -5],
+            },
+            flip: {
+              rotateY: [0, 180, 360],
+              y: [-10, 10, -10],
+            },
+          };
+          
+          return (
+            <motion.img
+              key={`scatter-${i}`}
+              src={nftImages[(i + 3) % nftImages.length]}
+              alt={`NFT scatter ${i + 1}`}
+              className={`absolute ${pos.size} object-cover rounded-xl shadow-lg border-3 border-cockatoo-yellow/60 cursor-pointer nft-hover`}
+              style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+              animate={effects[pos.effect]}
+              transition={{
+                duration: pos.effect === 'flip' ? 4 : pos.effect === 'blink' ? 2 : 2.5,
+                delay: i * 0.3,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              whileHover={{
+                scale: 1.6,
+                rotate: [0, -20, 20, 0],
+                boxShadow: "0 0 40px rgba(100,200,255,0.7)",
+                zIndex: 50,
+              }}
+              whileTap={{ scale: 0.7, rotateY: 180 }}
+              onHoverStart={() => playSound("pop")}
+              onClick={() => playSound("squawk")}
+            />
+          );
+        })}
       </div>
 
       {/* Main content */}
