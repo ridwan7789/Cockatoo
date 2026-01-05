@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import cockatooLogo from "@/assets/cockatoo-logo.jpeg";
 
@@ -59,15 +59,16 @@ export const Navbar = () => {
                 ))}
               </>
             ) : null}
-            <Link to="/gallery">
-              <motion.button
-                className="px-4 py-2 rounded-full font-display font-semibold text-foreground/80 hover:text-foreground hover:bg-cockatoo-purple/20 transition-all flex items-center gap-1"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                🖼️ Gallery
-              </motion.button>
-            </Link>
+            <motion.a
+              href="https://opensea.io/collection/cockatoocoin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-full font-display font-semibold text-foreground/80 hover:text-foreground hover:bg-cockatoo-purple/20 transition-all flex items-center gap-1"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              🖼️ Gallery
+            </motion.a>
           </div>
 
           <div className="flex items-center gap-3">

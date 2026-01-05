@@ -1,27 +1,33 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Coins, ShoppingCart, Users, Heart } from "lucide-react";
+import { nftImages } from "./FloatingNFT";
+import cockatooLambo from "@/assets/cockatoo-lambo.mp4";
 
 const features = [
   {
     icon: Coins,
     title: "Payments",
     description: "Instant, borderless transactions",
+    nftIndex: 0,
   },
   {
     icon: ShoppingCart,
     title: "Marketplace",
     description: "Settlement layer for all trades",
+    nftIndex: 1,
   },
   {
     icon: Users,
     title: "Incentives",
     description: "Community rewards & governance",
+    nftIndex: 2,
   },
   {
     icon: Heart,
     title: "Charity",
     description: "Direct on-chain donations",
+    nftIndex: 3,
   },
 ];
 
@@ -34,30 +40,32 @@ export const TokenSection = () => {
       id="token"
       className="relative py-32 bg-gradient-to-b from-cockatoo-yellow/20 via-cockatoo-cream to-cockatoo-blue/20 overflow-hidden"
     >
-      {/* Animated token river */}
+      {/* Animated NFT river */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(8)].map((_, i) => (
+        {nftImages.slice(0, 8).map((nft, i) => (
           <motion.div
             key={i}
             className="absolute"
             style={{
-              top: `${20 + i * 10}%`,
-              left: "-100px",
+              top: `${15 + i * 10}%`,
+              left: "-120px",
             }}
             animate={{
               x: ["0vw", "120vw"],
               rotate: [0, 360],
             }}
             transition={{
-              duration: 10 + i * 2,
+              duration: 12 + i * 2,
               delay: i * 0.8,
               repeat: Infinity,
               ease: "linear",
             }}
           >
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cockatoo-yellow to-cockatoo-orange shadow-lg border-4 border-cockatoo-white/50 flex items-center justify-center font-display font-bold text-cockatoo-dark text-sm">
-              $K
-            </div>
+            <img
+              src={nft}
+              alt={`NFT ${i + 1}`}
+              className="w-12 h-12 rounded-xl shadow-lg border-2 border-cockatoo-yellow/50 object-cover"
+            />
           </motion.div>
         ))}
       </div>
@@ -102,8 +110,15 @@ export const TokenSection = () => {
               whileHover={{ y: -10, scale: 1.05 }}
               className="bg-cockatoo-white rounded-3xl p-6 shadow-lg border-4 border-cockatoo-yellow/30 hover:border-cockatoo-yellow transition-all cursor-pointer"
             >
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cockatoo-yellow to-cockatoo-orange flex items-center justify-center mb-4 shadow-md">
-                <feature.icon className="w-7 h-7 text-cockatoo-dark" />
+              <div className="flex items-center gap-4 mb-4">
+                <img
+                  src={nftImages[feature.nftIndex]}
+                  alt={feature.title}
+                  className="w-14 h-14 rounded-xl object-cover border-2 border-cockatoo-yellow"
+                />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cockatoo-yellow to-cockatoo-orange flex items-center justify-center shadow-md">
+                  <feature.icon className="w-5 h-5 text-cockatoo-dark" />
+                </div>
               </div>
               <h3 className="font-display text-xl font-bold text-foreground mb-2">
                 {feature.title}
@@ -115,25 +130,30 @@ export const TokenSection = () => {
           ))}
         </div>
 
-        {/* Token visual */}
+        {/* Video visual */}
         <motion.div
           className="mt-20 flex justify-center"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <motion.div
-            className="relative w-48 h-48 md:w-64 md:h-64"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cockatoo-yellow via-cockatoo-orange to-cockatoo-yellow shadow-2xl border-8 border-cockatoo-white/50" />
-            <div className="absolute inset-4 rounded-full bg-gradient-to-br from-cockatoo-orange to-cockatoo-yellow flex items-center justify-center">
-              <span className="font-display text-5xl md:text-7xl font-bold text-cockatoo-dark">
-                $K
+          <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-3xl overflow-hidden shadow-2xl border-8 border-cockatoo-white">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source src={cockatooLambo} type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-t from-cockatoo-dark/30 to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 text-center">
+              <span className="font-display text-2xl font-bold text-cockatoo-white drop-shadow-lg">
+                $KATOO to the Moon! 🚀
               </span>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

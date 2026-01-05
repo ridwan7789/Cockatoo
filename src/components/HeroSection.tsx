@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { FloatingCockatoo } from "./FloatingCockatoo";
-import { FloatingCoins } from "./FloatingCoins";
+import { FloatingNFT, FloatingNFTs } from "./FloatingNFT";
 import { Sparkles, Volume2 } from "lucide-react";
+import cockatooVideo from "@/assets/cockatoo-video.mp4";
 
 export const HeroSection = () => {
   const scrollTo = (id: string) => {
@@ -14,34 +15,50 @@ export const HeroSection = () => {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-cockatoo-yellow/40 via-cockatoo-cream to-cockatoo-blue/30"
     >
+      {/* Background video */}
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover opacity-20"
+        >
+          <source src={cockatooVideo} type="video/mp4" />
+        </video>
+      </div>
+
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient orbs */}
         <div className="absolute top-20 left-20 w-96 h-96 bg-cockatoo-yellow/30 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-20 w-80 h-80 bg-cockatoo-pink/20 rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cockatoo-blue/20 rounded-full blur-3xl" />
       </div>
 
-      <FloatingCoins />
+      <FloatingNFTs count={6} />
 
-      {/* Floating Cockatoos around */}
-      <FloatingCockatoo
+      {/* Floating NFTs around */}
+      <FloatingNFT
         className="absolute top-32 left-10 hidden lg:block"
+        imageIndex={0}
         size="sm"
         delay={0}
       />
-      <FloatingCockatoo
+      <FloatingNFT
         className="absolute top-40 right-16 hidden lg:block"
+        imageIndex={1}
         size="md"
         delay={0.5}
       />
-      <FloatingCockatoo
+      <FloatingNFT
         className="absolute bottom-32 left-20 hidden lg:block"
+        imageIndex={2}
         size="sm"
         delay={1}
       />
-      <FloatingCockatoo
+      <FloatingNFT
         className="absolute bottom-40 right-32 hidden lg:block"
+        imageIndex={3}
         size="sm"
         delay={1.5}
       />
