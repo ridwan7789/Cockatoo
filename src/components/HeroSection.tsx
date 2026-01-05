@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { FloatingCockatoo } from "./FloatingCockatoo";
-import { FloatingNFT, nftImages } from "./FloatingNFT";
+import { nftImages } from "./FloatingNFT";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
 import { Sparkles, Volume2 } from "lucide-react";
 import cockatooLambo from "@/assets/cockatoo-lambo.mp4";
 
 export const HeroSection = () => {
+  const { playSound } = useSoundEffects();
+
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -35,8 +38,8 @@ export const HeroSection = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cockatoo-blue/20 rounded-full blur-3xl" />
       </div>
 
-      {/* Many floating NFTs for lively effect */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Interactive floating NFTs */}
+      <div className="absolute inset-0 overflow-hidden">
         {/* Left side NFTs */}
         {[
           { x: 3, y: 15, size: "w-14 h-14", delay: 0 },
@@ -50,7 +53,7 @@ export const HeroSection = () => {
             key={`left-${i}`}
             src={nftImages[i % nftImages.length]}
             alt={`NFT ${i + 1}`}
-            className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block`}
+            className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block cursor-pointer nft-hover`}
             style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
             animate={{
               y: [-15, 15, -15],
@@ -63,6 +66,14 @@ export const HeroSection = () => {
               repeat: Infinity,
               ease: "easeInOut",
             }}
+            whileHover={{
+              scale: 1.3,
+              rotate: [0, -15, 15, 0],
+              zIndex: 50,
+            }}
+            whileTap={{ scale: 0.9 }}
+            onHoverStart={() => playSound("pop")}
+            onClick={() => playSound("squawk")}
           />
         ))}
 
@@ -79,7 +90,7 @@ export const HeroSection = () => {
             key={`right-${i}`}
             src={nftImages[(i + 5) % nftImages.length]}
             alt={`NFT ${i + 6}`}
-            className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block`}
+            className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block cursor-pointer nft-hover`}
             style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
             animate={{
               y: [-12, 12, -12],
@@ -92,6 +103,14 @@ export const HeroSection = () => {
               repeat: Infinity,
               ease: "easeInOut",
             }}
+            whileHover={{
+              scale: 1.3,
+              rotate: [0, 15, -15, 0],
+              zIndex: 50,
+            }}
+            whileTap={{ scale: 0.9 }}
+            onHoverStart={() => playSound("pop")}
+            onClick={() => playSound("squawk")}
           />
         ))}
 
@@ -106,7 +125,7 @@ export const HeroSection = () => {
             key={`scatter-${i}`}
             src={nftImages[(i + 3) % nftImages.length]}
             alt={`NFT scatter ${i + 1}`}
-            className={`absolute ${pos.size} object-cover rounded-xl shadow-lg border-3 border-cockatoo-yellow/60`}
+            className={`absolute ${pos.size} object-cover rounded-xl shadow-lg border-3 border-cockatoo-yellow/60 cursor-pointer nft-hover`}
             style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
             animate={{
               y: [-8, 8, -8],
@@ -119,6 +138,14 @@ export const HeroSection = () => {
               repeat: Infinity,
               ease: "easeInOut",
             }}
+            whileHover={{
+              scale: 1.4,
+              rotate: [0, -10, 10, 0],
+              zIndex: 50,
+            }}
+            whileTap={{ scale: 0.9 }}
+            onHoverStart={() => playSound("pop")}
+            onClick={() => playSound("squawk")}
           />
         ))}
       </div>
