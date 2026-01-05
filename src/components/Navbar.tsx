@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import cockatooLogo from "@/assets/cockatoo-logo.jpeg";
 
 export const Navbar = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -35,23 +38,36 @@ export const Navbar = () => {
           </motion.div>
 
           <div className="hidden md:flex items-center gap-2">
-            {[
-              { label: "Story", id: "story" },
-              { label: "Token", id: "token" },
-              { label: "NFTs", id: "nft" },
-              { label: "Impact", id: "impact" },
-              { label: "Roadmap", id: "roadmap" },
-            ].map((item) => (
+            {isHomePage ? (
+              <>
+                {[
+                  { label: "Story", id: "story" },
+                  { label: "Token", id: "token" },
+                  { label: "NFTs", id: "nft" },
+                  { label: "Impact", id: "impact" },
+                  { label: "Roadmap", id: "roadmap" },
+                ].map((item) => (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => scrollTo(item.id)}
+                    className="px-4 py-2 rounded-full font-display font-semibold text-foreground/80 hover:text-foreground hover:bg-cockatoo-yellow/20 transition-all"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item.label}
+                  </motion.button>
+                ))}
+              </>
+            ) : null}
+            <Link to="/gallery">
               <motion.button
-                key={item.id}
-                onClick={() => scrollTo(item.id)}
-                className="px-4 py-2 rounded-full font-display font-semibold text-foreground/80 hover:text-foreground hover:bg-cockatoo-yellow/20 transition-all"
+                className="px-4 py-2 rounded-full font-display font-semibold text-foreground/80 hover:text-foreground hover:bg-cockatoo-purple/20 transition-all flex items-center gap-1"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {item.label}
+                🖼️ Gallery
               </motion.button>
-            ))}
+            </Link>
           </div>
 
           <div className="flex items-center gap-3">
