@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { FloatingCockatoo } from "./FloatingCockatoo";
 import { nftImages } from "./FloatingNFT";
@@ -12,7 +12,36 @@ export const HeroSection = () => {
   const { playSound } = useSoundEffects();
   const { particles, triggerConfetti } = useConfetti();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+
+  // Try to play video and unmute after user interaction
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Ensure video plays (muted first for autoplay policy)
+    const playVideo = async () => {
+      try {
+        video.muted = true;
+        await video.play();
+        
+        // Try to unmute after first user interaction
+        const handleInteraction = () => {
+          video.muted = false;
+          setIsMuted(false);
+          document.removeEventListener('click', handleInteraction);
+          document.removeEventListener('touchstart', handleInteraction);
+        };
+        
+        document.addEventListener('click', handleInteraction, { once: true });
+        document.addEventListener('touchstart', handleInteraction, { once: true });
+      } catch (error) {
+        console.log('Video autoplay blocked:', error);
+      }
+    };
+
+    playVideo();
+  }, []);
 
   const handleNFTClick = (e: React.MouseEvent) => {
     playSound("squawk");
@@ -43,7 +72,7 @@ export const HeroSection = () => {
           ref={videoRef}
           autoPlay
           loop
-          muted={isMuted}
+          muted
           playsInline
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover opacity-80"
         >
