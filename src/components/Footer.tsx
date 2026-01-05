@@ -22,9 +22,9 @@ const GitbookIcon = () => (
 );
 
 const socialLinks = [
-  { icon: TelegramIcon, label: "Telegram", href: "https://t.me/cockatoocoin", color: "hover:bg-[#0088cc] hover:text-white" },
-  { icon: XTwitterIcon, label: "X/Twitter", href: "https://x.com/cockatoocoin", color: "hover:bg-black hover:text-white" },
-  { icon: GitbookIcon, label: "Gitbook", href: "https://docs.cockatoocoin.com", color: "hover:bg-[#3884ff] hover:text-white" },
+  { icon: TelegramIcon, label: "Telegram", href: "https://t.me/CockatooCoin", color: "hover:bg-[#0088cc] hover:text-white" },
+  { icon: XTwitterIcon, label: "X/Twitter", href: "https://x.com/cockatoochain", color: "hover:bg-black hover:text-white" },
+  { icon: GitbookIcon, label: "Gitbook", href: "https://docs.cockatoo.world", color: "hover:bg-[#3884ff] hover:text-white" },
 ];
 
 const navLinks = [
@@ -32,7 +32,7 @@ const navLinks = [
   { label: "NFTs", id: "nft" },
   { label: "Roadmap", id: "roadmap" },
   { label: "Community", id: "cta" },
-  { label: "Docs", href: "https://docs.cockatoocoin.com" },
+  { label: "Docs", href: "https://docs.cockatoo.world" },
 ];
 
 export const Footer = () => {
