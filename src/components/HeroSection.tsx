@@ -49,20 +49,6 @@ export const HeroSection = () => {
         >
           <source src={cockatooLambo} type="video/mp4" />
         </video>
-        
-        {/* Sound toggle button */}
-        <motion.button
-          onClick={toggleSound}
-          className="absolute bottom-6 right-6 z-20 w-14 h-14 rounded-full bg-cockatoo-white/90 hover:bg-cockatoo-white flex items-center justify-center shadow-lg border-3 border-cockatoo-yellow cursor-pointer"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          {isMuted ? (
-            <span className="text-2xl">🔇</span>
-          ) : (
-            <span className="text-2xl">🔊</span>
-          )}
-        </motion.button>
       </div>
 
       {/* Background decorations */}
