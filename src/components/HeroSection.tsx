@@ -12,7 +12,7 @@ export const HeroSection = () => {
   const { playSound } = useSoundEffects();
   const { particles, triggerConfetti } = useConfetti();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
 
   const handleNFTClick = (e: React.MouseEvent) => {
     playSound("squawk");
@@ -45,7 +45,7 @@ export const HeroSection = () => {
           loop
           muted={isMuted}
           playsInline
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover opacity-50"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover opacity-80"
         >
           <source src={cockatooLambo} type="video/mp4" />
         </video>
