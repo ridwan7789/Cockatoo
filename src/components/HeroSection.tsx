@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { FloatingCockatoo } from "./FloatingCockatoo";
 import { nftImages } from "./FloatingNFT";
@@ -10,10 +11,19 @@ import cockatooLambo from "@/assets/cockatoo-lambo.mp4";
 export const HeroSection = () => {
   const { playSound } = useSoundEffects();
   const { particles, triggerConfetti } = useConfetti();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
 
   const handleNFTClick = (e: React.MouseEvent) => {
     playSound("squawk");
     triggerConfetti(e.clientX, e.clientY);
+  };
+
+  const toggleSound = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
   };
 
   const scrollTo = (id: string) => {
@@ -30,14 +40,29 @@ export const HeroSection = () => {
       {/* Background video */}
       <div className="absolute inset-0 overflow-hidden">
         <video
+          ref={videoRef}
           autoPlay
           loop
-          muted
+          muted={isMuted}
           playsInline
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover opacity-50"
         >
           <source src={cockatooLambo} type="video/mp4" />
         </video>
+        
+        {/* Sound toggle button */}
+        <motion.button
+          onClick={toggleSound}
+          className="absolute bottom-6 right-6 z-20 w-14 h-14 rounded-full bg-cockatoo-white/90 hover:bg-cockatoo-white flex items-center justify-center shadow-lg border-3 border-cockatoo-yellow cursor-pointer"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          {isMuted ? (
+            <span className="text-2xl">🔇</span>
+          ) : (
+            <span className="text-2xl">🔊</span>
+          )}
+        </motion.button>
       </div>
 
       {/* Background decorations */}
@@ -56,7 +81,6 @@ export const HeroSection = () => {
           { x: 5, y: 55, size: "w-16 h-16", effect: "bounce" },
           { x: 10, y: 75, size: "w-12 h-12", effect: "zigzag" },
           { x: 15, y: 25, size: "w-10 h-10", effect: "pulse" },
-          { x: 12, y: 85, size: "w-18 h-18", effect: "spin" },
         ].map((pos, i) => {
           const effects: Record<string, any> = {
             orbit: {
