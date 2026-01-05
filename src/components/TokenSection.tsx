@@ -1,33 +1,32 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Coins, ShoppingCart, Users, Heart } from "lucide-react";
 import { nftImages } from "./FloatingNFT";
 import cockatooVideo from "@/assets/cockatoo-video.mp4";
 
 const features = [
   {
-    icon: Coins,
     title: "Payments",
     description: "Instant, borderless transactions",
     nftIndex: 0,
+    emoji: "💸",
   },
   {
-    icon: ShoppingCart,
     title: "Marketplace",
     description: "Settlement layer for all trades",
     nftIndex: 1,
+    emoji: "🛒",
   },
   {
-    icon: Users,
     title: "Incentives",
     description: "Community rewards & governance",
     nftIndex: 2,
+    emoji: "🎁",
   },
   {
-    icon: Heart,
     title: "Charity",
     description: "Direct on-chain donations",
     nftIndex: 3,
+    emoji: "❤️",
   },
 ];
 
@@ -40,14 +39,14 @@ export const TokenSection = () => {
       id="token"
       className="relative py-32 bg-gradient-to-b from-cockatoo-yellow/20 via-cockatoo-cream to-cockatoo-blue/20 overflow-hidden"
     >
-      {/* Animated NFT river */}
+      {/* Animated NFT river - more NFTs flowing */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {nftImages.slice(0, 8).map((nft, i) => (
+        {nftImages.map((nft, i) => (
           <motion.div
-            key={i}
+            key={`river-${i}`}
             className="absolute"
             style={{
-              top: `${15 + i * 10}%`,
+              top: `${10 + i * 8}%`,
               left: "-120px",
             }}
             animate={{
@@ -55,8 +54,8 @@ export const TokenSection = () => {
               rotate: [0, 360],
             }}
             transition={{
-              duration: 12 + i * 2,
-              delay: i * 0.8,
+              duration: 10 + i * 1.5,
+              delay: i * 0.6,
               repeat: Infinity,
               ease: "linear",
             }}
@@ -64,9 +63,65 @@ export const TokenSection = () => {
             <img
               src={nft}
               alt={`NFT ${i + 1}`}
-              className="w-12 h-12 rounded-xl shadow-lg border-2 border-cockatoo-yellow/50 object-cover"
+              className="w-14 h-14 rounded-xl shadow-lg border-3 border-cockatoo-yellow/60 object-cover"
             />
           </motion.div>
+        ))}
+        
+        {/* Second wave of NFTs */}
+        {nftImages.slice(0, 6).map((nft, i) => (
+          <motion.div
+            key={`river2-${i}`}
+            className="absolute"
+            style={{
+              top: `${5 + i * 15}%`,
+              right: "-120px",
+            }}
+            animate={{
+              x: ["0vw", "-120vw"],
+              rotate: [360, 0],
+            }}
+            transition={{
+              duration: 14 + i * 1.2,
+              delay: i * 1.2 + 3,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          >
+            <img
+              src={nft}
+              alt={`NFT reverse ${i + 1}`}
+              className="w-12 h-12 rounded-xl shadow-lg border-2 border-cockatoo-pink/50 object-cover"
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Corner floating NFTs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[
+          { x: 5, y: 10, size: "w-16 h-16", delay: 0 },
+          { x: 90, y: 15, size: "w-14 h-14", delay: 0.5 },
+          { x: 8, y: 80, size: "w-12 h-12", delay: 1 },
+          { x: 88, y: 75, size: "w-16 h-16", delay: 1.5 },
+        ].map((pos, i) => (
+          <motion.img
+            key={`corner-${i}`}
+            src={nftImages[(i + 2) % nftImages.length]}
+            alt={`Corner NFT ${i + 1}`}
+            className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white hidden md:block`}
+            style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+            animate={{
+              y: [-10, 10, -10],
+              rotate: [-5, 5, -5],
+            }}
+            transition={{
+              duration: 4 + i * 0.5,
+              delay: pos.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
         ))}
       </div>
 
@@ -83,7 +138,7 @@ export const TokenSection = () => {
             animate={isInView ? { scale: 1 } : {}}
             transition={{ duration: 0.5, type: "spring" }}
           >
-            <Coins className="w-6 h-6" />
+            <span className="text-2xl">🪙</span>
             $KATOO Token
           </motion.div>
 
@@ -116,8 +171,8 @@ export const TokenSection = () => {
                   alt={feature.title}
                   className="w-14 h-14 rounded-xl object-cover border-2 border-cockatoo-yellow"
                 />
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cockatoo-yellow to-cockatoo-orange flex items-center justify-center shadow-md">
-                  <feature.icon className="w-5 h-5 text-cockatoo-dark" />
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cockatoo-yellow to-cockatoo-orange flex items-center justify-center shadow-md text-2xl">
+                  {feature.emoji}
                 </div>
               </div>
               <h3 className="font-display text-xl font-bold text-foreground mb-2">
