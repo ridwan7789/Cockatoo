@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { FloatingCockatoo } from "./FloatingCockatoo";
-import { FloatingNFT, FloatingNFTs } from "./FloatingNFT";
+import { FloatingNFT, nftImages } from "./FloatingNFT";
 import { Sparkles, Volume2 } from "lucide-react";
 import cockatooLambo from "@/assets/cockatoo-lambo.mp4";
 
@@ -35,33 +35,93 @@ export const HeroSection = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cockatoo-blue/20 rounded-full blur-3xl" />
       </div>
 
-      <FloatingNFTs count={6} />
+      {/* Many floating NFTs for lively effect */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Left side NFTs */}
+        {[
+          { x: 3, y: 15, size: "w-14 h-14", delay: 0 },
+          { x: 8, y: 35, size: "w-20 h-20", delay: 0.3 },
+          { x: 5, y: 55, size: "w-16 h-16", delay: 0.6 },
+          { x: 10, y: 75, size: "w-12 h-12", delay: 0.9 },
+          { x: 15, y: 25, size: "w-10 h-10", delay: 1.2 },
+          { x: 12, y: 85, size: "w-18 h-18", delay: 1.5 },
+        ].map((pos, i) => (
+          <motion.img
+            key={`left-${i}`}
+            src={nftImages[i % nftImages.length]}
+            alt={`NFT ${i + 1}`}
+            className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block`}
+            style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+            animate={{
+              y: [-15, 15, -15],
+              rotate: [-5, 5, -5],
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              duration: 4 + i * 0.5,
+              delay: pos.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
 
-      {/* Floating NFTs around */}
-      <FloatingNFT
-        className="absolute top-32 left-10 hidden lg:block"
-        imageIndex={0}
-        size="sm"
-        delay={0}
-      />
-      <FloatingNFT
-        className="absolute top-40 right-16 hidden lg:block"
-        imageIndex={1}
-        size="md"
-        delay={0.5}
-      />
-      <FloatingNFT
-        className="absolute bottom-32 left-20 hidden lg:block"
-        imageIndex={2}
-        size="sm"
-        delay={1}
-      />
-      <FloatingNFT
-        className="absolute bottom-40 right-32 hidden lg:block"
-        imageIndex={3}
-        size="sm"
-        delay={1.5}
-      />
+        {/* Right side NFTs */}
+        {[
+          { x: 85, y: 12, size: "w-16 h-16", delay: 0.2 },
+          { x: 90, y: 32, size: "w-14 h-14", delay: 0.5 },
+          { x: 82, y: 50, size: "w-20 h-20", delay: 0.8 },
+          { x: 88, y: 68, size: "w-12 h-12", delay: 1.1 },
+          { x: 92, y: 82, size: "w-16 h-16", delay: 1.4 },
+          { x: 78, y: 20, size: "w-10 h-10", delay: 1.7 },
+        ].map((pos, i) => (
+          <motion.img
+            key={`right-${i}`}
+            src={nftImages[(i + 5) % nftImages.length]}
+            alt={`NFT ${i + 6}`}
+            className={`absolute ${pos.size} object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white/80 hidden lg:block`}
+            style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+            animate={{
+              y: [-12, 12, -12],
+              rotate: [5, -5, 5],
+              scale: [1, 1.08, 1],
+            }}
+            transition={{
+              duration: 4.5 + i * 0.5,
+              delay: pos.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+
+        {/* Scattered smaller NFTs for mobile and extra flair */}
+        {[
+          { x: 20, y: 10, size: "w-10 h-10" },
+          { x: 75, y: 8, size: "w-12 h-12" },
+          { x: 25, y: 88, size: "w-14 h-14" },
+          { x: 70, y: 90, size: "w-10 h-10" },
+        ].map((pos, i) => (
+          <motion.img
+            key={`scatter-${i}`}
+            src={nftImages[(i + 3) % nftImages.length]}
+            alt={`NFT scatter ${i + 1}`}
+            className={`absolute ${pos.size} object-cover rounded-xl shadow-lg border-3 border-cockatoo-yellow/60`}
+            style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
+            animate={{
+              y: [-8, 8, -8],
+              x: [-5, 5, -5],
+              rotate: [-3, 3, -3],
+            }}
+            transition={{
+              duration: 5 + i,
+              delay: i * 0.4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
