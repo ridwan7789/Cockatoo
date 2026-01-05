@@ -3,21 +3,30 @@ import { Button } from "@/components/ui/button";
 import { FloatingCockatoo } from "./FloatingCockatoo";
 import { nftImages } from "./FloatingNFT";
 import { useSoundEffects } from "@/hooks/useSoundEffects";
+import { useConfetti, ConfettiRenderer } from "./ConfettiEffect";
 import { Sparkles, Volume2 } from "lucide-react";
 import cockatooLambo from "@/assets/cockatoo-lambo.mp4";
 
 export const HeroSection = () => {
   const { playSound } = useSoundEffects();
+  const { particles, triggerConfetti } = useConfetti();
+
+  const handleNFTClick = (e: React.MouseEvent) => {
+    playSound("squawk");
+    triggerConfetti(e.clientX, e.clientY);
+  };
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-cockatoo-yellow/40 via-cockatoo-cream to-cockatoo-blue/30"
-    >
+    <>
+      <ConfettiRenderer particles={particles} />
+      <section
+        id="hero"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-cockatoo-yellow/40 via-cockatoo-cream to-cockatoo-blue/30"
+      >
       {/* Background video */}
       <div className="absolute inset-0 overflow-hidden">
         <video
@@ -25,7 +34,7 @@ export const HeroSection = () => {
           loop
           muted
           playsInline
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover opacity-20"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover opacity-50"
         >
           <source src={cockatooLambo} type="video/mp4" />
         </video>
@@ -100,7 +109,7 @@ export const HeroSection = () => {
               }}
               whileTap={{ scale: 0.8, rotate: 180 }}
               onHoverStart={() => playSound("pop")}
-              onClick={() => playSound("squawk")}
+              onClick={handleNFTClick}
             />
           );
         })}
@@ -165,7 +174,7 @@ export const HeroSection = () => {
               }}
               whileTap={{ scale: 0.8, rotate: -180 }}
               onHoverStart={() => playSound("pop")}
-              onClick={() => playSound("squawk")}
+              onClick={handleNFTClick}
             />
           );
         })}
@@ -219,7 +228,7 @@ export const HeroSection = () => {
               }}
               whileTap={{ scale: 0.7, rotateY: 180 }}
               onHoverStart={() => playSound("pop")}
-              onClick={() => playSound("squawk")}
+              onClick={handleNFTClick}
             />
           );
         })}
@@ -311,5 +320,6 @@ export const HeroSection = () => {
         </motion.div>
       </div>
     </section>
+    </>
   );
 };
