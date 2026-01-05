@@ -1,7 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Rocket, Globe, Star } from "lucide-react";
-import { FloatingCockatoo } from "./FloatingCockatoo";
+import { FloatingNFT, nftImages } from "./FloatingNFT";
 
 const phases = [
   {
@@ -16,6 +16,7 @@ const phases = [
     ],
     color: "from-cockatoo-yellow to-cockatoo-orange",
     status: "active",
+    nftIndex: 0,
   },
   {
     phase: "Phase 2",
@@ -29,6 +30,7 @@ const phases = [
     ],
     color: "from-cockatoo-blue to-cockatoo-purple",
     status: "upcoming",
+    nftIndex: 1,
   },
   {
     phase: "Phase 3",
@@ -42,6 +44,7 @@ const phases = [
     ],
     color: "from-cockatoo-pink to-cockatoo-orange",
     status: "future",
+    nftIndex: 2,
   },
 ];
 
@@ -54,9 +57,30 @@ export const RoadmapSection = () => {
       id="roadmap"
       className="relative py-32 bg-gradient-to-b from-cockatoo-green/20 via-cockatoo-cream to-cockatoo-yellow/30 overflow-hidden"
     >
+      {/* Floating NFT decorations */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-10 w-64 h-64 bg-cockatoo-yellow/30 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 right-10 w-72 h-72 bg-cockatoo-blue/20 rounded-full blur-3xl" />
+        {nftImages.slice(7, 10).map((nft, i) => (
+          <motion.img
+            key={i}
+            src={nft}
+            alt={`Floating NFT ${i + 1}`}
+            className="absolute w-16 h-16 rounded-xl shadow-lg border-2 border-cockatoo-yellow/30 object-cover opacity-30"
+            style={{
+              left: `${10 + i * 35}%`,
+              top: i % 2 === 0 ? "5%" : "85%",
+            }}
+            animate={{
+              y: [-15, 15, -15],
+              rotate: [-5, 5, -5],
+            }}
+            transition={{
+              duration: 5 + i,
+              delay: i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
       </div>
 
       <div ref={ref} className="relative z-10 max-w-7xl mx-auto px-4">
@@ -93,7 +117,7 @@ export const RoadmapSection = () => {
           {/* Path line */}
           <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-2 bg-gradient-to-r from-cockatoo-yellow via-cockatoo-blue to-cockatoo-pink rounded-full -translate-y-1/2" />
 
-          {/* Traveling Cockatoo */}
+          {/* Traveling NFT */}
           <motion.div
             className="hidden lg:block absolute top-1/2 -translate-y-1/2 z-20"
             initial={{ left: "0%" }}
@@ -104,7 +128,7 @@ export const RoadmapSection = () => {
               ease: "easeInOut",
             }}
           >
-            <FloatingCockatoo size="sm" />
+            <FloatingNFT size="sm" imageIndex={9} />
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
@@ -134,10 +158,17 @@ export const RoadmapSection = () => {
                 </motion.div>
 
                 <div className="bg-cockatoo-white rounded-3xl p-8 shadow-lg border-4 border-cockatoo-yellow/20 hover:border-cockatoo-yellow/50 transition-all h-full mt-4 lg:mt-8">
-                  <div
-                    className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${phase.color} flex items-center justify-center mb-6 shadow-md`}
-                  >
-                    <phase.icon className="w-7 h-7 text-cockatoo-white" />
+                  <div className="flex items-center gap-4 mb-6">
+                    <img
+                      src={nftImages[phase.nftIndex]}
+                      alt={phase.title}
+                      className="w-14 h-14 rounded-xl object-cover border-2 border-cockatoo-yellow shadow-md"
+                    />
+                    <div
+                      className={`w-10 h-10 rounded-xl bg-gradient-to-br ${phase.color} flex items-center justify-center shadow-md`}
+                    >
+                      <phase.icon className="w-5 h-5 text-cockatoo-white" />
+                    </div>
                   </div>
 
                   <span className="text-sm font-bold text-muted-foreground font-display">
@@ -156,8 +187,10 @@ export const RoadmapSection = () => {
                         transition={{ delay: 0.5 + index * 0.2 + i * 0.1 }}
                         className="flex items-center gap-3 text-foreground/80 font-body"
                       >
-                        <div
-                          className={`w-2 h-2 rounded-full bg-gradient-to-br ${phase.color}`}
+                        <img
+                          src={nftImages[(phase.nftIndex + i + 3) % 10]}
+                          alt={`Item ${i + 1}`}
+                          className="w-6 h-6 rounded-lg object-cover border border-cockatoo-yellow/50"
                         />
                         {item}
                       </motion.li>

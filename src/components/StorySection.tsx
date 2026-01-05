@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { CreditCard, Image, Trophy, Heart, Users } from "lucide-react";
+import { nftImages } from "./FloatingNFT";
 
 const concepts = [
   {
@@ -10,6 +11,7 @@ const concepts = [
     description: "Seamless transactions powered by $KATOO",
     color: "from-cockatoo-yellow to-cockatoo-orange",
     emoji: "💳",
+    nftIndex: 0,
   },
   {
     icon: Image,
@@ -17,6 +19,7 @@ const concepts = [
     description: "Your reputation, access, and role in one token",
     color: "from-cockatoo-blue to-cockatoo-purple",
     emoji: "🎨",
+    nftIndex: 1,
   },
   {
     icon: Users,
@@ -24,6 +27,7 @@ const concepts = [
     description: "Community-first brand partnerships",
     color: "from-cockatoo-green to-cockatoo-blue",
     emoji: "🤝",
+    nftIndex: 2,
   },
   {
     icon: Trophy,
@@ -31,6 +35,7 @@ const concepts = [
     description: "Supporting grassroots athletes worldwide",
     color: "from-cockatoo-orange to-cockatoo-pink",
     emoji: "⚽",
+    nftIndex: 3,
   },
   {
     icon: Heart,
@@ -38,6 +43,7 @@ const concepts = [
     description: "Noise for the unheard, impact on-chain",
     color: "from-cockatoo-pink to-cockatoo-purple",
     emoji: "❤️",
+    nftIndex: 4,
   },
 ];
 
@@ -61,10 +67,18 @@ const ConceptCard = ({
       className="group cursor-pointer"
     >
       <div className="bg-cockatoo-white rounded-3xl p-8 shadow-lg border-4 border-transparent hover:border-cockatoo-yellow/50 transition-all duration-300 h-full">
-        <div
-          className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${concept.color} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform`}
-        >
-          <span className="text-4xl">{concept.emoji}</span>
+        <div className="flex items-center gap-4 mb-6">
+          <motion.img
+            src={nftImages[concept.nftIndex]}
+            alt={concept.title}
+            className="w-20 h-20 rounded-2xl object-cover shadow-lg border-4 border-cockatoo-white group-hover:scale-110 transition-transform"
+            whileHover={{ rotate: [0, -5, 5, 0] }}
+          />
+          <div
+            className={`w-12 h-12 rounded-xl bg-gradient-to-br ${concept.color} flex items-center justify-center shadow-md`}
+          >
+            <span className="text-2xl">{concept.emoji}</span>
+          </div>
         </div>
         <h3 className="font-display text-2xl font-bold text-foreground mb-3">
           {concept.title}
@@ -84,10 +98,30 @@ export const StorySection = () => {
       id="story"
       className="relative py-32 bg-gradient-to-b from-cockatoo-blue/30 via-cockatoo-cream to-cockatoo-yellow/20"
     >
-      {/* Background decorations */}
+      {/* Floating NFT decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-10 w-64 h-64 bg-cockatoo-pink/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-10 w-80 h-80 bg-cockatoo-yellow/30 rounded-full blur-3xl" />
+        {nftImages.slice(5, 8).map((nft, i) => (
+          <motion.img
+            key={i}
+            src={nft}
+            alt={`Floating NFT ${i + 1}`}
+            className="absolute w-20 h-20 rounded-2xl shadow-lg border-2 border-cockatoo-yellow/30 object-cover opacity-30"
+            style={{
+              right: `${5 + i * 10}%`,
+              top: `${20 + i * 25}%`,
+            }}
+            animate={{
+              y: [-15, 15, -15],
+              rotate: [-3, 3, -3],
+            }}
+            transition={{
+              duration: 5 + i,
+              delay: i * 0.3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4">

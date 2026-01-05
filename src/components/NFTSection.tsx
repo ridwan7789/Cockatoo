@@ -1,13 +1,14 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Shield, Key, Star, Award } from "lucide-react";
+import { nftImages } from "./FloatingNFT";
 import nftBanner from "@/assets/cockatoo-nft-banner.jpeg";
 
 const nftFeatures = [
-  { icon: Shield, label: "Identity", desc: "Your unique on-chain identity" },
-  { icon: Key, label: "Access", desc: "Unlock exclusive features" },
-  { icon: Star, label: "Reputation", desc: "Build your community standing" },
-  { icon: Award, label: "Benefits", desc: "Earn rewards and perks" },
+  { icon: Shield, label: "Identity", desc: "Your unique on-chain identity", nftIndex: 4 },
+  { icon: Key, label: "Access", desc: "Unlock exclusive features", nftIndex: 5 },
+  { icon: Star, label: "Reputation", desc: "Build your community standing", nftIndex: 6 },
+  { icon: Award, label: "Benefits", desc: "Earn rewards and perks", nftIndex: 7 },
 ];
 
 export const NFTSection = () => {
@@ -20,10 +21,30 @@ export const NFTSection = () => {
       id="nft"
       className="relative py-32 bg-gradient-to-b from-cockatoo-blue/20 via-cockatoo-cream to-cockatoo-pink/20 overflow-hidden"
     >
-      {/* Background decoration */}
+      {/* Floating NFT decorations */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-10 w-72 h-72 bg-cockatoo-purple/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-cockatoo-blue/20 rounded-full blur-3xl" />
+        {nftImages.slice(0, 4).map((nft, i) => (
+          <motion.img
+            key={i}
+            src={nft}
+            alt={`Floating NFT ${i + 1}`}
+            className="absolute w-16 h-16 rounded-xl shadow-lg border-2 border-cockatoo-purple/30 object-cover opacity-40"
+            style={{
+              left: `${10 + i * 25}%`,
+              top: i % 2 === 0 ? "10%" : "80%",
+            }}
+            animate={{
+              y: [-20, 20, -20],
+              rotate: [-5, 5, -5],
+            }}
+            transition={{
+              duration: 4 + i,
+              delay: i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
       </div>
 
       <div ref={ref} className="relative z-10 max-w-7xl mx-auto px-4">
@@ -52,6 +73,36 @@ export const NFTSection = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-body">
             Cockatoo NFTs are more than art. They're your key to the ecosystem.
           </p>
+        </motion.div>
+
+        {/* NFT Gallery Grid */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-16"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          {nftImages.map((nft, index) => (
+            <motion.div
+              key={index}
+              className="relative group cursor-pointer"
+              whileHover={{ scale: 1.05, zIndex: 10 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.1 * index }}
+            >
+              <img
+                src={nft}
+                alt={`Cockatoo NFT #${index + 1}`}
+                className="w-full aspect-square object-cover rounded-2xl shadow-lg border-4 border-cockatoo-white group-hover:border-cockatoo-purple transition-all"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-cockatoo-dark/60 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
+                <span className="font-display font-bold text-cockatoo-white text-lg">
+                  #{index + 1}
+                </span>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
 
         {/* NFT Banner Image */}
@@ -104,9 +155,11 @@ export const NFTSection = () => {
                 }`}
                 style={{ transformStyle: "preserve-3d" }}
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cockatoo-blue to-cockatoo-purple flex items-center justify-center mb-4">
-                  <feature.icon className="w-6 h-6 text-cockatoo-white" />
-                </div>
+                <img
+                  src={nftImages[feature.nftIndex]}
+                  alt={feature.label}
+                  className="w-12 h-12 rounded-xl object-cover mb-4 border-2 border-cockatoo-blue"
+                />
                 <h4 className="font-display text-lg font-bold text-foreground mb-1">
                   {feature.label}
                 </h4>
@@ -117,6 +170,25 @@ export const NFTSection = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* OpenSea Link */}
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.6 }}
+        >
+          <motion.a
+            href="https://opensea.io/collection/cockatoocoin"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cockatoo-blue to-cockatoo-purple rounded-full font-display font-bold text-cockatoo-white shadow-lg hover:shadow-xl transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            🖼️ View Full Collection on OpenSea
+          </motion.a>
+        </motion.div>
       </div>
     </section>
   );
