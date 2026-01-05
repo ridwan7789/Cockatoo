@@ -152,15 +152,6 @@ export const HeroSection = () => {
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        {/* Main mascot */}
-        <motion.div
-          className="mb-8"
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ duration: 0.8, type: "spring", bounce: 0.5 }}
-        >
-          <FloatingCockatoo size="xl" className="mx-auto" />
-        </motion.div>
 
         {/* Main headline */}
         <motion.h1
