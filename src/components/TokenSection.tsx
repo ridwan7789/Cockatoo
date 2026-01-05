@@ -2,7 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Coins, ShoppingCart, Users, Heart } from "lucide-react";
 import { nftImages } from "./FloatingNFT";
-import cockatooLambo from "@/assets/cockatoo-lambo.mp4";
+import cockatooVideo from "@/assets/cockatoo-video.mp4";
 
 const features = [
   {
@@ -145,7 +145,7 @@ export const TokenSection = () => {
               playsInline
               className="w-full h-full object-cover"
             >
-              <source src={cockatooLambo} type="video/mp4" />
+              <source src={cockatooVideo} type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-gradient-to-t from-cockatoo-dark/30 to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 text-center">

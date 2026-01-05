@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FloatingCockatoo } from "./FloatingCockatoo";
 import { FloatingNFT, FloatingNFTs } from "./FloatingNFT";
 import { Sparkles, Volume2 } from "lucide-react";
-import cockatooVideo from "@/assets/cockatoo-video.mp4";
+import cockatooLambo from "@/assets/cockatoo-lambo.mp4";
 
 export const HeroSection = () => {
   const scrollTo = (id: string) => {
@@ -24,7 +24,7 @@ export const HeroSection = () => {
           playsInline
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover opacity-20"
         >
-          <source src={cockatooVideo} type="video/mp4" />
+          <source src={cockatooLambo} type="video/mp4" />
         </video>
       </div>
 
