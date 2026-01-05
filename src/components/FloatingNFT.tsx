@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
 import nft1 from "@/assets/nfts/nft-1.jpeg";
 import nft2 from "@/assets/nfts/nft-2.jpeg";
 import nft3 from "@/assets/nfts/nft-3.jpeg";
@@ -18,6 +19,7 @@ interface FloatingNFTProps {
   size?: "sm" | "md" | "lg" | "xl";
   delay?: number;
   duration?: number;
+  interactive?: boolean;
 }
 
 const sizes = {
@@ -33,12 +35,14 @@ export const FloatingNFT = ({
   size = "md",
   delay = 0,
   duration = 4,
+  interactive = true,
 }: FloatingNFTProps) => {
   const image = nftImages[imageIndex % nftImages.length];
+  const { playSound } = useSoundEffects();
 
   return (
     <motion.div
-      className={`${sizes[size]} ${className}`}
+      className={`${sizes[size]} ${className} cursor-pointer`}
       initial={{ y: 0, rotate: 0 }}
       animate={{
         y: [-10, 10, -10],
@@ -50,16 +54,19 @@ export const FloatingNFT = ({
         repeat: Infinity,
         ease: "easeInOut",
       }}
-      whileHover={{
-        scale: 1.2,
-        rotate: [0, -10, 10, -10, 0],
-        transition: { duration: 0.5 },
-      }}
+      whileHover={interactive ? {
+        scale: 1.3,
+        rotate: [0, -15, 15, -10, 10, 0],
+        transition: { duration: 0.4 },
+      } : undefined}
+      whileTap={interactive ? { scale: 0.9 } : undefined}
+      onHoverStart={() => interactive && playSound("pop")}
+      onClick={() => interactive && playSound("squawk")}
     >
       <img
         src={image}
         alt={`Cockatoo NFT ${imageIndex + 1}`}
-        className="w-full h-full object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white"
+        className="w-full h-full object-cover rounded-2xl shadow-xl border-4 border-cockatoo-white nft-hover"
       />
     </motion.div>
   );

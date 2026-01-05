@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
 
 import { cn } from "@/lib/utils";
 
@@ -10,27 +11,27 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-gradient-to-br from-cockatoo-yellow to-cockatoo-orange text-foreground shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 rounded-full border-2 border-cockatoo-orange/30",
+          "bg-gradient-to-br from-cockatoo-yellow to-cockatoo-orange text-foreground shadow-lg hover:shadow-xl hover:scale-105 hover-meme-jelly active:scale-95 rounded-full border-2 border-cockatoo-orange/30",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 rounded-2xl",
         outline:
-          "border-3 border-primary bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground rounded-full",
+          "border-3 border-primary bg-background/80 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground rounded-full hover-meme-pop",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 rounded-2xl",
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 rounded-2xl hover-meme-zoom",
         ghost: 
           "hover:bg-accent hover:text-accent-foreground rounded-2xl",
         link: 
           "text-primary underline-offset-4 hover:underline",
         hero:
-          "bg-gradient-to-br from-cockatoo-yellow to-cockatoo-orange text-cockatoo-dark shadow-xl hover:shadow-2xl hover:scale-110 active:scale-95 rounded-full border-4 border-cockatoo-white/50 font-bold text-lg",
+          "bg-gradient-to-br from-cockatoo-yellow to-cockatoo-orange text-cockatoo-dark shadow-xl hover:shadow-2xl hover:scale-110 hover-meme-jelly active:scale-95 rounded-full border-4 border-cockatoo-white/50 font-bold text-lg",
         heroOutline:
-          "border-4 border-cockatoo-white bg-cockatoo-white/20 backdrop-blur-md text-cockatoo-dark hover:bg-cockatoo-white hover:text-cockatoo-dark rounded-full font-bold text-lg hover:scale-110 active:scale-95 transition-all",
+          "border-4 border-cockatoo-white bg-cockatoo-white/20 backdrop-blur-md text-cockatoo-dark hover:bg-cockatoo-white hover:text-cockatoo-dark rounded-full font-bold text-lg hover:scale-110 hover-meme-pop active:scale-95 transition-all",
         playful:
-          "bg-cockatoo-pink text-cockatoo-white shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 rounded-full border-4 border-cockatoo-white/30",
+          "bg-cockatoo-pink text-cockatoo-white shadow-lg hover:shadow-xl hover:scale-105 hover-meme-shake active:scale-95 rounded-full border-4 border-cockatoo-white/30",
         blue:
-          "bg-cockatoo-blue text-cockatoo-dark shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 rounded-full border-4 border-cockatoo-white/50",
+          "bg-cockatoo-blue text-cockatoo-dark shadow-lg hover:shadow-xl hover:scale-105 hover-meme-jelly active:scale-95 rounded-full border-4 border-cockatoo-white/50",
         green:
-          "bg-cockatoo-green text-cockatoo-dark shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 rounded-full border-4 border-cockatoo-white/50",
+          "bg-cockatoo-green text-cockatoo-dark shadow-lg hover:shadow-xl hover:scale-105 hover-meme-zoom active:scale-95 rounded-full border-4 border-cockatoo-white/50",
       },
       size: {
         default: "h-12 px-6 py-3",
@@ -51,12 +52,33 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  enableSound?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, enableSound = true, onClick, onMouseEnter, ...props }, ref) => {
+    const { playSound } = useSoundEffects();
     const Comp = asChild ? Slot : "button";
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+    
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (enableSound) playSound("click");
+      onClick?.(e);
+    };
+    
+    const handleHover = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (enableSound) playSound("pop");
+      onMouseEnter?.(e);
+    };
+    
+    return (
+      <Comp 
+        className={cn(buttonVariants({ variant, size, className }))} 
+        ref={ref} 
+        onClick={handleClick}
+        onMouseEnter={handleHover}
+        {...props} 
+      />
+    );
   },
 );
 Button.displayName = "Button";
