@@ -24,7 +24,7 @@ export const HeroSection = () => {
       try {
         video.muted = true;
         await video.play();
-        
+
         // Try to unmute after first user interaction
         const handleInteraction = () => {
           video.muted = false;
@@ -32,7 +32,7 @@ export const HeroSection = () => {
           document.removeEventListener('click', handleInteraction);
           document.removeEventListener('touchstart', handleInteraction);
         };
-        
+
         document.addEventListener('click', handleInteraction, { once: true });
         document.addEventListener('touchstart', handleInteraction, { once: true });
       } catch (error) {
@@ -125,7 +125,7 @@ export const HeroSection = () => {
               y: [-15, 15, -15],
             },
           };
-          
+
           return (
             <motion.img
               key={`left-${i}`}
@@ -190,7 +190,7 @@ export const HeroSection = () => {
               rotate: [-5, 5, -5, 5, -5],
             },
           };
-          
+
           return (
             <motion.img
               key={`right-${i}`}
@@ -244,7 +244,7 @@ export const HeroSection = () => {
               y: [-10, 10, -10],
             },
           };
-          
+
           return (
             <motion.img
               key={`scatter-${i}`}
@@ -283,7 +283,7 @@ export const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <span className="text-foreground">MAKE SOME</span>
+          <span className="text-foreground">COCKATOO</span>
           <br />
           <motion.span
             className="bg-gradient-to-r from-cockatoo-yellow via-cockatoo-orange to-cockatoo-pink bg-clip-text text-transparent"
@@ -293,7 +293,7 @@ export const HeroSection = () => {
             transition={{ duration: 5, repeat: Infinity }}
             style={{ backgroundSize: "200% 200%" }}
           >
-            NOISE.
+            WORLD.
           </motion.span>
         </motion.h1>
 
@@ -342,21 +342,6 @@ export const HeroSection = () => {
           </Button>
         </motion.div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 10, 0] }}
-          transition={{ opacity: { delay: 1.5 }, y: { duration: 2, repeat: Infinity } }}
-        >
-          <div className="w-8 h-12 rounded-full border-4 border-foreground/30 flex items-start justify-center pt-2">
-            <motion.div
-              className="w-2 h-2 rounded-full bg-foreground/50"
-              animate={{ y: [0, 16, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-          </div>
-        </motion.div>
       </div>
     </section>
     </>
