@@ -342,6 +342,18 @@ export const HeroSection = () => {
           </Button>
         </motion.div>
 
+        {/* Contract Address */}
+        <motion.div
+          className="mt-8 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.9 }}
+        >
+          <p className="font-mono text-sm text-foreground/60">
+            CA $Cockatoo: 0xB12b5B1a2e4b07106917637dc9f4a9d2A1D27777
+          </p>
+        </motion.div>
+
       </div>
     </section>
     </>
