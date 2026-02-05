@@ -65,7 +65,7 @@ export const Navbar = () => {
               </motion.button>
             ))}
             <motion.a
-              href="https://pump.fun"
+              href="https://nad.fun/"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2 rounded-full font-display font-semibold text-cockatoo-dark bg-cockatoo-yellow/80 hover:bg-cockatoo-yellow transition-all flex items-center gap-1"
@@ -129,7 +129,7 @@ export const Navbar = () => {
                 <hr className="border-cockatoo-yellow/20 my-2" />
                 
                 <motion.a
-                  href="https://pump.fun"
+                  href="https://nad.fun/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-3 rounded-xl font-display font-semibold text-cockatoo-dark bg-cockatoo-yellow/80 hover:bg-cockatoo-yellow transition-all flex items-center gap-2"
