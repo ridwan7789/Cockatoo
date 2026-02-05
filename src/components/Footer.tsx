@@ -22,8 +22,8 @@ const GitbookIcon = () => (
 );
 
 const socialLinks = [
-  { icon: TelegramIcon, label: "Telegram", href: "https://t.me/CockatooCoin", color: "hover:bg-[#0088cc] hover:text-white" },
-  { icon: XTwitterIcon, label: "X/Twitter", href: "https://x.com/cockatoochain", color: "hover:bg-black hover:text-white" },
+  { icon: TelegramIcon, label: "Telegram", href: "https://t.me", color: "hover:bg-[#0088cc] hover:text-white" },
+  { icon: XTwitterIcon, label: "X/Twitter", href: "https://x.com/cockatoo_monad", color: "hover:bg-black hover:text-white" },
   { icon: GitbookIcon, label: "Gitbook", href: "https://docs.cockatoo.world", color: "hover:bg-[#3884ff] hover:text-white" },
 ];
 
@@ -131,7 +131,7 @@ export const Footer = () => {
 
         <div className="mt-12 pt-8 border-t-2 border-cockatoo-yellow/20 text-center">
           <p className="text-muted-foreground font-body text-sm">
-            © 2025 Cockatoo. All rights reserved.
+            © 2026 Cockatoo. All rights reserved.
           </p>
           <p className="text-muted-foreground/60 font-body text-xs mt-2">
             "Silence never changed the world. Noise did."
