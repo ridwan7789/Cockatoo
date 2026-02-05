@@ -3,7 +3,6 @@ import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Users, ImageIcon, Volume2 } from "lucide-react";
 import { FloatingNFT, nftImages } from "./FloatingNFT";
-import cockatooVideo from "@/assets/cockatoo-video.mp4";
 
 const Confetti = () => {
   return (
@@ -53,17 +52,29 @@ export const CTASection = () => {
     >
       {showConfetti && <Confetti />}
 
-      {/* Background video */}
-      <div className="absolute inset-0 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full object-cover opacity-10"
-        >
-          <source src={cockatooVideo} type="video/mp4" />
-        </video>
+      {/* Background NFT pattern */}
+      <div className="absolute inset-0 overflow-hidden opacity-10">
+        {nftImages.slice(0, 12).map((nft, i) => (
+          <motion.img
+            key={`bg-${i}`}
+            src={nft}
+            alt={`Background NFT ${i + 1}`}
+            className="absolute w-32 h-32 object-cover opacity-20"
+            style={{
+              top: `${(i * 17) % 100}%`,
+              left: `${(i * 23) % 100}%`,
+            }}
+            animate={{
+              rotate: [0, 360],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 8 + i,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        ))}
       </div>
 
       <div className="absolute inset-0 pointer-events-none">

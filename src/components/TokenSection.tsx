@@ -1,7 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { nftImages } from "./FloatingNFT";
-import cockatooVideo from "@/assets/cockatoo-video.mp4";
 
 const features = [
   {
@@ -32,16 +31,7 @@ const features = [
 
 export const TokenSection = () => {
   const ref = useRef(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [isMuted, setIsMuted] = useState(true);
-
-  const toggleSound = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
-  };
 
   return (
     <section
@@ -194,7 +184,7 @@ export const TokenSection = () => {
           ))}
         </div>
 
-        {/* Video visual */}
+        {/* NFT showcase visual */}
         <motion.div
           className="mt-20 flex justify-center"
           initial={{ opacity: 0, scale: 0.8 }}
@@ -202,32 +192,22 @@ export const TokenSection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-3xl overflow-hidden shadow-2xl border-8 border-cockatoo-white">
-            <video
-              ref={videoRef}
-              autoPlay
-              loop
-              muted={isMuted}
-              playsInline
-              className="w-full h-full object-cover"
-            >
-              <source src={cockatooVideo} type="video/mp4" />
-            </video>
+            {/* NFT grid background */}
+            <div className="absolute inset-0 grid grid-cols-2 gap-4 p-4">
+              {nftImages.slice(0, 4).map((nft, i) => (
+                <motion.img
+                  key={i}
+                  src={nft}
+                  alt={`NFT ${i + 1}`}
+                  className="w-full h-full object-cover rounded-xl border-2 border-cockatoo-yellow/50"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={isInView ? { scale: 1, opacity: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
+                />
+              ))}
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-cockatoo-dark/30 to-transparent" />
-            
-            {/* Sound toggle button */}
-            <motion.button
-              onClick={toggleSound}
-              className="absolute top-4 right-4 w-12 h-12 rounded-full bg-cockatoo-white/90 hover:bg-cockatoo-white flex items-center justify-center shadow-lg border-2 border-cockatoo-yellow cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {isMuted ? (
-                <span className="text-2xl">🔇</span>
-              ) : (
-                <span className="text-2xl">🔊</span>
-              )}
-            </motion.button>
-            
+
             <div className="absolute bottom-4 left-4 right-4 text-center">
               <span className="font-display text-2xl font-bold text-cockatoo-white drop-shadow-lg">
                 $KATOO to the Moon! 🚀
